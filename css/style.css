@@ -4,7 +4,7 @@ body{
 }
 
 main{
-    height: 900px;
+    height: 1000px;
 
 }
 
@@ -86,4 +86,22 @@ footer{
     background-color:#0D2A4D ;
     height: 30px;
     color: white;
+}
+
+#roundsNumberForm{
+    margin-top: 30px;
+    width: 200px;
+    margin-left: 580px;
+}
+
+form{
+    background-color:#0D2A4D ;
+}
+
+label{
+    color: white;
+}
+
+input{
+    margin-top: 10px;
 }

@@ -114,7 +114,18 @@ function generateRandomNumber(forbiddenIndex) {
 }
 printThreeImages();
 
+var roundsNumber = document.getElementById('roundsNumber');
+roundsNumber.addEventListener('submit',submitRoundsNumber);
+
+
 var numberOfRounds = 25
+function submitRoundsNumber(event){
+    event.preventDefault();
+    numberOfRounds = event.target.randomNumber.target
+    return numberOfRounds;
+}
+
+
 if (localStorage.getItem('Max Clicks')){
     numberOfRounds = JSON.parse(localStorage.getItem('Max Clicks'));
 }

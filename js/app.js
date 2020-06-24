@@ -29,6 +29,18 @@ function ProductImage(name, filePath) {
     productNames.push(this.name);
 }
 
+if(localStorage.getItem('Number Of Clicks')){
+    totalClicks = JSON.parse(localStorage.getItem('Number Of Clicks'));
+}
+
+if(localStorage.getItem('All Products')){
+    productsArr = JSON.parse(localStorage.getItem('All Products'));
+    for(var i = 0; i< productsArr.length;i++){
+        productNames.push(productsArr[i].name);
+    }
+
+}else{
+
 new ProductImage('Bag', 'img/bag.jpg');
 new ProductImage('Banana', 'img/banana.jpg');
 new ProductImage('Bathroom', 'img/bathroom.jpg');
@@ -49,7 +61,7 @@ new ProductImage('Unicorn', 'img/unicorn.jpg');
 new ProductImage('Usb', 'img/usb.gif');
 new ProductImage('Water-Can', 'img/water-can.jpg');
 new ProductImage('Wine-Glass', 'img/wine-glass.jpg');
-
+}
 
 
 function printThreeImages() {
@@ -78,20 +90,11 @@ function printThreeImages() {
     middleImage.setAttribute('src', currentmiddle.filePath);
     rightImage.setAttribute('src', currentRight.filePath);
 
-    currentLeft.timesShown = Number(localStorage.getItem(currentLeft.name));
     currentLeft.timesShown += 1;
-    localStorage.setItem(currentLeft.name,currentLeft.timesShown);
-    currentmiddle.timesShown = Number(localStorage.getItem(currentmiddle.name));
     currentmiddle.timesShown += 1;
-    localStorage.setItem(currentmiddle.name,currentmiddle.timesShown)
-    currentRight.timesShown = Number(localStorage.getItem(currentRight.name));
     currentRight.timesShown += 1;
-    localStorage.setItem(currentRight.name,currentRight.timesShown)
-
-
 }
 
-console.log(timesShownArr);
 function generateRandomNumber(forbiddenIndex) {
 
     var allowed;
@@ -109,15 +112,28 @@ function generateRandomNumber(forbiddenIndex) {
 
     return randomNumber;
 }
-
-
 printThreeImages();
 
+var roundsNumber = document.getElementById('roundsNumber');
+roundsNumber.addEventListener('submit',submitRoundsNumber);
+
+
+var numberOfRounds = 25
+function submitRoundsNumber(event){
+    event.preventDefault();
+    numberOfRounds = event.target.randomNumber.target
+    return numberOfRounds;
+}
+
+
+if (localStorage.getItem('Max Clicks')){
+    numberOfRounds = JSON.parse(localStorage.getItem('Max Clicks'));
+}
 
 productsDiv.addEventListener('click', handleClick);
 
 function handleClick(event) {
-    if (totalClicks < 25) {
+    if (totalClicks < numberOfRounds) {
         var clickedElement = event.target;
         var clickedElementId = clickedElement.id;
 
@@ -126,21 +142,18 @@ function handleClick(event) {
 
 
             if (clickedElementId === 'left') {
-                currentLeft.numberOfClicks = Number(localStorage.getItem(currentLeft.name));
                 currentLeft.numberOfClicks += 1;
-                localStorage.setItem(currentLeft.name,currentLeft.numberOfClicks);
+                storeInLocalStorage();
             }
 
             if (clickedElementId === 'middle') {
-                currentmiddle.numberOfClicks = Number(localStorage.getItem(currentmiddle.name));
                 currentmiddle.numberOfClicks += 1;
-                localStorage.setItem(currentmiddle.name,currentmiddle.numberOfClicks );
+                storeInLocalStorage();
             }
 
             if (clickedElementId === 'right') {
-                currentRight.numberOfClicks = Number (localStorage.getItem(currentRight.name));
                 currentRight.numberOfClicks += 1;
-                localStorage.setItem(currentRight.name,currentRight.numberOfClicks);
+                storeInLocalStorage();
             }
             printThreeImages();
             
@@ -151,7 +164,8 @@ function handleClick(event) {
         
         insertChart();
         productsDiv.removeEventListener('click', handleClick);
-        
+        numberOfRounds = numberOfRounds + 25;
+        localStorage.setItem("Max Clicks",JSON.stringify(numberOfRounds));
     }
 }
 
@@ -198,16 +212,8 @@ function insertChart() {
 
 
 
-
-// function storeInLocalStorage(){
-//     var numOfClicksTotal = 0;
-//     var timesshowntotal = 0;
-//     for (var i = 0; i< productsArr.length; i++){
-//         var jasonString = productNames[i];
-//          numOfClicksTotal = Number(productsArr.numberOfClicks);
-//          timesshowntotal = Number (productsArr.timesShown);
-//         localStorage.setItem(jasonString,Number(numOfClicksTotal));
-//     }
-   
-
-// }
+storeInLocalStorage();
+function storeInLocalStorage(){
+    localStorage.setItem('All Products',JSON.stringify(productsArr));
+    localStorage.setItem('Number Of Clicks',JSON.stringify(totalClicks));
+}

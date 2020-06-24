@@ -1,12 +1,9 @@
 'use strict';
 
 var productsArr = [];
+var productNames = [];
 var totalClicks = 0;
 var productsDiv = document.getElementById('products');
-
-var leftProductImage = document.getElementById('left');
-var middleProductImage = document.getElementById('middle');
-var rightProductImage = document.getElementById('right');
 
 var currentLeft;
 var currentmiddle;
@@ -20,7 +17,8 @@ var leftImage = document.getElementById('left');
 var middleImage = document.getElementById('middle');
 var rightImage = document.getElementById('right');
 
-var productNames = [];
+var totalClicksArr = [];
+var timesShownArr = [];
 
 function ProductImage(name, filePath) {
     this.name = name;
@@ -80,13 +78,20 @@ function printThreeImages() {
     middleImage.setAttribute('src', currentmiddle.filePath);
     rightImage.setAttribute('src', currentRight.filePath);
 
+    currentLeft.timesShown = Number(localStorage.getItem(currentLeft.name));
     currentLeft.timesShown += 1;
+    localStorage.setItem(currentLeft.name,currentLeft.timesShown);
+    currentmiddle.timesShown = Number(localStorage.getItem(currentmiddle.name));
     currentmiddle.timesShown += 1;
+    localStorage.setItem(currentmiddle.name,currentmiddle.timesShown)
+    currentRight.timesShown = Number(localStorage.getItem(currentRight.name));
     currentRight.timesShown += 1;
+    localStorage.setItem(currentRight.name,currentRight.timesShown)
+
 
 }
 
-
+console.log(timesShownArr);
 function generateRandomNumber(forbiddenIndex) {
 
     var allowed;
@@ -121,28 +126,35 @@ function handleClick(event) {
 
 
             if (clickedElementId === 'left') {
+                currentLeft.numberOfClicks = Number(localStorage.getItem(currentLeft.name));
                 currentLeft.numberOfClicks += 1;
-
+                localStorage.setItem(currentLeft.name,currentLeft.numberOfClicks);
             }
 
             if (clickedElementId === 'middle') {
+                currentmiddle.numberOfClicks = Number(localStorage.getItem(currentmiddle.name));
                 currentmiddle.numberOfClicks += 1;
-
+                localStorage.setItem(currentmiddle.name,currentmiddle.numberOfClicks );
             }
 
             if (clickedElementId === 'right') {
+                currentRight.numberOfClicks = Number (localStorage.getItem(currentRight.name));
                 currentRight.numberOfClicks += 1;
+                localStorage.setItem(currentRight.name,currentRight.numberOfClicks);
             }
             printThreeImages();
+            
         }
+
+        
     } else {
+        
         insertChart();
         productsDiv.removeEventListener('click', handleClick);
+        
     }
 }
 
-var totalClicksArr = [];
-var timesShownArr = [];
 
 function insertChart() {
     for (var i = 0; i < productsArr.length; i++) {
@@ -183,3 +195,19 @@ function insertChart() {
         }
     })
 }
+
+
+
+
+// function storeInLocalStorage(){
+//     var numOfClicksTotal = 0;
+//     var timesshowntotal = 0;
+//     for (var i = 0; i< productsArr.length; i++){
+//         var jasonString = productNames[i];
+//          numOfClicksTotal = Number(productsArr.numberOfClicks);
+//          timesshowntotal = Number (productsArr.timesShown);
+//         localStorage.setItem(jasonString,Number(numOfClicksTotal));
+//     }
+   
+
+// }

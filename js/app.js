@@ -20,6 +20,8 @@ var rightImage = document.getElementById('right');
 var totalClicksArr = [];
 var timesShownArr = [];
 
+
+// .... Constructor Function For Products
 function ProductImage(name, filePath) {
     this.name = name;
     this.filePath = filePath;
@@ -29,10 +31,12 @@ function ProductImage(name, filePath) {
     productNames.push(this.name);
 }
 
+// .... Getting The Number of Clicks From The Local Storage to Reassign The Number Of Total Click  
 if(localStorage.getItem('Number Of Clicks')){
     totalClicks = JSON.parse(localStorage.getItem('Number Of Clicks'));
 }
 
+// .... If Condition to check if There is Data of Products Array in the Local Storage, if Not Create New Object 
 if(localStorage.getItem('All Products')){
     productsArr = JSON.parse(localStorage.getItem('All Products'));
     for(var i = 0; i< productsArr.length;i++){
@@ -63,7 +67,7 @@ new ProductImage('Water-Can', 'img/water-can.jpg');
 new ProductImage('Wine-Glass', 'img/wine-glass.jpg');
 }
 
-
+// .... Function Of Displaying Three Unique Products Images 
 function printThreeImages() {
 
     var forbiddenIndex = [];
@@ -95,6 +99,7 @@ function printThreeImages() {
     currentRight.timesShown += 1;
 }
 
+// .... Function Of making Random Number To create Random Images 
 function generateRandomNumber(forbiddenIndex) {
 
     var allowed;
@@ -114,9 +119,9 @@ function generateRandomNumber(forbiddenIndex) {
 }
 printThreeImages();
 
+// .... Inserting Event Listener to Submit User choice of Rounds Number And Its Function
 var roundsNumber = document.getElementById('roundsNumber');
 roundsNumber.addEventListener('submit',submitRoundsNumber);
-
 
 var numberOfRounds = 25
 function submitRoundsNumber(event){
@@ -130,6 +135,7 @@ if (localStorage.getItem('Max Clicks')){
     numberOfRounds = JSON.parse(localStorage.getItem('Max Clicks'));
 }
 
+// .... Insert Event Listener For Images Clicks Handling And Its Function 
 productsDiv.addEventListener('click', handleClick);
 
 function handleClick(event) {
@@ -169,7 +175,7 @@ function handleClick(event) {
     }
 }
 
-
+// .... Function For Inserting Chart Of The Number of Clicks and Showntime For Each Image 
 function insertChart() {
     for (var i = 0; i < productsArr.length; i++) {
         totalClicksArr.push(productsArr[i].numberOfClicks);
@@ -211,7 +217,7 @@ function insertChart() {
 }
 
 
-
+// .... Function Of Storing Data In The Local Storage
 storeInLocalStorage();
 function storeInLocalStorage(){
     localStorage.setItem('All Products',JSON.stringify(productsArr));
